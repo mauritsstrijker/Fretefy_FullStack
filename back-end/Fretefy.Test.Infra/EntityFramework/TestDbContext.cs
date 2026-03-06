@@ -1,4 +1,5 @@
-﻿using Fretefy.Test.Infra.EntityFramework.Mappings;
+﻿using Fretefy.Test.Domain.Entities;
+using Fretefy.Test.Infra.EntityFramework.Mappings;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fretefy.Test.Infra.EntityFramework
@@ -23,7 +24,9 @@ namespace Fretefy.Test.Infra.EntityFramework
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new RefreshTokenMap());
             modelBuilder.ApplyConfiguration(new CidadeMap());
+            modelBuilder.ApplyConfiguration(new RegiaoMap());
         }
     }
 }

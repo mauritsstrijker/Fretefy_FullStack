@@ -5,12 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EPPlus" Version="4.5.3.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Fretefy.Test.Domain\Fretefy.Test.Domain.csproj" />
+    <ProjectReference Include="..\Fretefy.Test.Application\Fretefy.Test.Application.csproj" />
   </ItemGroup>
 
 </Project>

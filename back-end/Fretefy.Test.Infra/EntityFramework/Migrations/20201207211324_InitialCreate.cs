@@ -123,7 +123,7 @@ namespace Fretefy.Test.Infra.EntityFramework.Migrations
             migrationBuilder.InsertData(
                 table: "Cidade",
                 columns: new[] { "Id", "Nome", "UF" },
-                values: new object[] { new Guid("e3dcbced-4326-4007-94df-c33f8c77a204"), "Fortaleza", " CE" });
+                values: new object[] { new Guid("e3dcbced-4326-4007-94df-c33f8c77a204"), "Fortaleza", "CE" });
 
             migrationBuilder.InsertData(
                 table: "Cidade",

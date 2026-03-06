@@ -73,7 +73,7 @@ namespace Fretefy.Test.Infra.EntityFramework.Migrations
                         {
                             Id = new Guid("e3dcbced-4326-4007-94df-c33f8c77a204"),
                             Nome = "Fortaleza",
-                            UF = " CE"
+                            UF = "CE"
                         },
                         new
                         {

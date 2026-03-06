@@ -1,0 +1,36 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="regiao-form">
+
+  <div class="form-group">
+    <label class="form-label">Nome</label>
+    <input class="form-input" formControlName="name" type="text" placeholder="Nome da região" />
+    <span class="form-error" *ngIf="form.get('name')?.hasError('required') && form.get('name')?.touched">
+      Nome é obrigatório
+    </span>
+    <span class="form-error" *ngIf="form.get('name')?.hasError('nameExists')">
+      Já existe uma região com este nome
+    </span>
+  </div>
+
+  <div class="form-group" formArrayName="cityIds">
+    <label class="form-label">Cidades</label>
+    <div class="cidade-list">
+      <div class="cidade-row" *ngFor="let control of cidades.controls; let i = index">
+        <app-cidade-seletor [formControlName]="i" [excludeIds]="getExcludeIds(i)"></app-cidade-seletor>
+        <button type="button" class="btn btn-sm btn-danger" (click)="removeCidade(i)">✕</button>
+      </div>
+    </div>
+    <button type="button" class="btn btn-sm btn-outline btn-add-cidade" (click)="addCidade()">+ Adicionar Cidade</button>
+    <span class="form-error" *ngIf="form.get('cityIds')?.hasError('minOneCity') && form.get('cityIds')?.touched">
+      Informe ao menos uma cidade
+    </span>
+    <span class="form-error" *ngIf="form.get('cityIds')?.hasError('duplicateCities')">
+      Não é permitido repetir cidades
+    </span>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid || form.pending">Salvar</button>
+    <button type="button" class="btn btn-outline" (click)="onCancel()">Cancelar</button>
+  </div>
+
+</form>

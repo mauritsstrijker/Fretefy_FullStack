@@ -1,0 +1,6 @@
+<select class="form-select" [formControl]="control">
+  <option [value]="null" disabled>Selecione uma cidade</option>
+  <option *ngFor="let cidade of cidadesFiltradas" [value]="cidade.id">
+    {{ cidade.nome }} / {{ cidade.uf }}
+  </option>
+</select>

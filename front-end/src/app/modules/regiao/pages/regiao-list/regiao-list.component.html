@@ -1,0 +1,38 @@
+<div class="page-container">
+  <div class="page-header">
+    <h2>Regiões</h2>
+    <div class="header-actions">
+      <button class="btn btn-primary" routerLink="novo">+ Nova Região</button>
+      <button class="btn btn-outline" (click)="export()">⬇ Exportar</button>
+    </div>
+  </div>
+
+  <div class="card card--flush">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Status</th>
+          <th>Cidades</th>
+          <th class="col-actions">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let regiao of regioes$ | async">
+          <td class="cell-name">{{ regiao.nome }}</td>
+          <td>
+            <span class="badge" [class.badge-active]="regiao.status === 'Ativo'" [class.badge-inactive]="regiao.status !== 'Ativo'">
+              {{ regiao.status }}
+            </span>
+          </td>
+          <td class="cell-cidades">{{ regiao.cidades | cidadesFormat }}</td>
+          <td class="cell-actions">
+            <a class="btn btn-sm btn-outline" [routerLink]="[regiao.id, 'editar']">Editar</a>
+            <button class="btn btn-sm btn-danger" *ngIf="regiao.status === 'Ativo'" (click)="deactivate(regiao.id)">Desativar</button>
+            <button class="btn btn-sm btn-success" *ngIf="regiao.status !== 'Ativo'" (click)="activate(regiao.id)">Ativar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

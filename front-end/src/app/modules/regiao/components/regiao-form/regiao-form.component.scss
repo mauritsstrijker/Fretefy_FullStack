@@ -1,0 +1,26 @@
+.regiao-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.cidade-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cidade-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  app-cidade-seletor {
+    flex: 1;
+  }
+}
+
+.btn-add-cidade {
+  align-self: flex-start;
+  margin-top: 4px;
+}

@@ -1,0 +1,13 @@
+<div class="page-container page-container--narrow">
+  <div class="page-header">
+    <h2>Editar Região</h2>
+  </div>
+  <div class="card">
+    <app-regiao-form
+      *ngIf="regiao"
+      [regiao]="regiao"
+      (submitted)="onSubmitted($event)"
+      (cancelled)="onCancelled()">
+    </app-regiao-form>
+  </div>
+</div>

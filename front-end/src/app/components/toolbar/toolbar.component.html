@@ -1,6 +1,10 @@
-<ul>
-  <li>
+<ul *ngIf="authenticated$ | async">
+  <li class="nav-links">
     <a [routerLink]="['/home']" routerLinkActive="active">Home</a>
     <a [routerLink]="['/regiao']" routerLinkActive="active">Região</a>
+  </li>
+  <li class="nav-user">
+    <span class="username">{{ username$ | async }}</span>
+    <button class="btn-logout" (click)="logout()">Sair</button>
   </li>
 </ul>

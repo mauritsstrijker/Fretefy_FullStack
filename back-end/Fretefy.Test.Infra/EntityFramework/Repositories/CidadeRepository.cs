@@ -1,34 +1,31 @@
 ﻿using Fretefy.Test.Domain.Entities;
 using Fretefy.Test.Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Fretefy.Test.Infra.EntityFramework.Repositories
 {
-    public class CidadeRepository : ICidadeRepository
+    public class CidadeRepository : Repository<Cidade>, ICidadeRepository
     {
-        private DbSet<Cidade> _dbSet;
+        public CidadeRepository(DbContext context) : base(context) { }
 
-        public CidadeRepository(DbContext dbContext)
+        public async Task<IEnumerable<Cidade>> ListByUfAsync(string uf)
         {
-            _dbSet = dbContext.Set<Cidade>();
+            return await _dbSet.Where(w => EF.Functions.Like(w.UF, $"%{uf}%")).ToListAsync();
         }
 
-        public IQueryable<Cidade> List()
+        public async Task<IEnumerable<Cidade>> QueryAsync(string terms)
         {
-            return _dbSet.AsQueryable();
+            return await _dbSet.Where(w => EF.Functions.Like(w.Nome, $"%{terms}%") || EF.Functions.Like(w.UF, $"%{terms}%")).ToListAsync();
         }
 
-        public IEnumerable<Cidade> ListByUf(string uf)
-        {
-            return _dbSet.Where(w => EF.Functions.Like(w.UF, $"%{uf}%"));
-        }
+        public async Task<IEnumerable<Cidade>> GetByIdsAsync(IEnumerable<Guid> ids) =>
+            await _dbSet.Where(c => ids.Contains(c.Id)).ToListAsync();
 
-        public IEnumerable<Cidade> Query(string terms)
-        {
-
-            return _dbSet.Where(w => EF.Functions.Like(w.Nome, $"%{terms}%") || EF.Functions.Like(w.UF, $"%{terms}%"));
-        }
+        public async Task<IEnumerable<Cidade>> ListWithoutCoordinatesAsync() =>
+            await _dbSet.Where(c => c.Latitude == null || c.Longitude == null).ToListAsync();
     }
 }

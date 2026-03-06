@@ -1,13 +1,16 @@
-﻿using Fretefy.Test.Domain.Entities;
-using Fretefy.Test.Domain.Interfaces;
+﻿using Fretefy.Test.Application.Dtos;
+using Fretefy.Test.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Fretefy.Test.WebApi.Controllers
 {
     [Route("api/cidade")]
     [ApiController]
+    [Authorize]
     public class CidadeController : ControllerBase
     {
         private readonly ICidadeService _cidadeService;
@@ -18,25 +21,25 @@ namespace Fretefy.Test.WebApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult List([FromQuery] string uf, [FromQuery] string terms)
+        public async Task<ActionResult<IEnumerable<CidadeDto>>> List([FromQuery] string uf, [FromQuery] string terms)
         {
-            IEnumerable<Cidade> cidades;
+            IEnumerable<CidadeDto> cidades;
 
             if (!string.IsNullOrEmpty(terms))
-                cidades = _cidadeService.Query(terms);
+                cidades = await _cidadeService.QueryAsync(terms);
             else if (!string.IsNullOrEmpty(uf))
-                cidades = _cidadeService.ListByUf(uf);
+                cidades = await _cidadeService.ListByUfAsync(uf);
             else
-                cidades = _cidadeService.List();
+                cidades = await _cidadeService.ListAsync();
 
             return Ok(cidades);
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(Guid id)
+        public async Task<ActionResult<CidadeDto>> Get(Guid id)
         {
-            var cidades = _cidadeService.Get(id);
-            return Ok(cidades);
+            var cidade = await _cidadeService.GetAsync(id);
+            return Ok(cidade);
         }
     }
 }
