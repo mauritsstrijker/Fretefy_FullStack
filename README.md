@@ -1,5 +1,29 @@
 # Fretefy | FullStack
 
+---
+
+## Implementações extras
+
+### Autenticação com cookies HTTP-only (Sessão + Refresh Token)
+
+Implementei um fluxo de autenticação baseado em cookies HTTP-only, o que significa que os dados de sessão nunca ficam expostos ao JavaScript do front-end — o browser gerencia os cookies automaticamente em cada requisição. O padrão funciona assim:
+
+- No login, o back-end gera um **cookie de sessão** (vida curta) e um **refresh token** (vida mais longa), ambos enviados como cookies `HttpOnly; Secure; SameSite`.
+- Como o front-end não consegue ler os cookies diretamente (justamente por serem HTTP-only), há um endpoint **`GET /api/auth/me`** que o front chama ao inicializar para saber se já existe uma sessão ativa e recuperar os dados do usuário autenticado.
+- Quando a sessão expira, o front chama **`POST /api/auth/refresh`** usando o refresh token (que também está no cookie) para renovar a sessão de forma transparente.
+- O logout limpa ambos os cookies no servidor via **`POST /api/auth/logout`**.
+- No front-end há um **HTTP interceptor** que captura qualquer requisição com erro `401`. Ao detectar isso, ele aciona automaticamente o refresh, reenvia a requisição original e retorna a resposta como se nada tivesse acontecido — o usuário não percebe nenhuma interrupção.
+
+As credenciais de acesso (usuário e senha) estão definidas no arquivo `Fretefy.Test.WebApi/appsettings.Development.json`.
+
+### Integração com a API de Geocoding do Google
+
+Implementei um **HostedService** que roda na inicialização da aplicação e verifica se existem cidades no banco que ainda não tiveram suas coordenadas sincronizadas. Caso encontre, ele consulta a API do Google e preenche as coordenadas automaticamente.
+
+A **API key** do Google necessária para essa integração será enviada junto ao e-mail de retorno do teste, bastando configurá-la no `Fretefy.Test.WebApi/appsettings.Development.json` na chave `Google:GeocodingApiKey`.
+
+---
+
 Bem vindo,
 
 Se você chegou até aqui é porque queremos conhecer um pouco mais sobre as suas habilidades no desenvolvimento back-end, para isso preparamos um projeto onde você terá que desenvolver um CRUD básico.
